@@ -1,12 +1,15 @@
 #include <stdio.h>
-#include <math.h>
 #include <stdlib.h>
 
+void limparBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
 
 int main()
 {
 // Declarando as variaveis
-    int calcularNovamente = 1, tempCalcularNovamente, quantidadeImc = 0, capacidadeImc = 5, saberMedia, limparBuffer;
+    int calcularNovamente = 1, tempCalcularNovamente, quantidadeImc = 0, capacidadeImc = 5, saberMedia;
     int pesoValido = 0, alturaValida = 0;
     float peso, altura, imc, mediaImc, somaImc;
     float *todosImc = (float*)malloc(capacidadeImc * sizeof(float));
@@ -49,7 +52,7 @@ int main()
                 pesoValido = 1;
             }
             // Limpando o buffer do teclado
-            while ((limparBuffer = getchar()) != '\n' && limparBuffer != EOF);
+            limparBuffer();
         }
         printf("O valor do peso e %.2f\n", peso);
         // Voltando o valor de pesoValido para 0, assim ele conseguira entrar no loop while cima na proxima
@@ -82,12 +85,12 @@ int main()
                 alturaValida = 1;
             }
             // Limpando o buffer do teclado
-            while ((limparBuffer = getchar()) != '\n' && limparBuffer != EOF);
+            limparBuffer();
         }
         printf("O valor da altura e %.2f\n", altura);
         alturaValida = 0;
         // Calculo do IMC
-        imc = (peso/pow(altura, 2.0));
+        imc = (peso/(altura * altura));
         printf("Seu IMC: %.2f\n", imc);
 
         // Classificacao do IMC
@@ -122,13 +125,15 @@ int main()
         {
             // Se a quantidade de numeros na array alcancar o espaco alocado no momento, dobra esse espaco alocado dinamicamente
             capacidadeImc *= 2;
-            // Aloca dinamicamente o espaco na variavel temp para caso de erro
-            float *temp = (float*)realloc(todosImc, capacidadeImc * sizeof(float));
+            // Criando uma variável temporaria para realocar dinamicamente TodosImc
+            float *realocadoTodosImc = (float*)realloc(todosImc, capacidadeImc * sizeof(float));
             // Testa se a alocacao funcionou
-            if (temp == NULL){
+            if (realocadoTodosImc == NULL){
                 printf("Erro de realocacao de memoria.\n");
                 return 1;
             }
+            // Realocando todosImc
+            todosImc = realocadoTodosImc;
         }
         // Adiciona 1 no contador de quantos IMCS foram realizados para utilizar no calculo da media
         quantidadeImc += 1;
@@ -139,7 +144,8 @@ int main()
         printf("Queres que a media do IMC seja calculada? Aperte '1' para 'Sim' ou qualquer outro carater para 'Nao'.\n");
         scanf("%d", &saberMedia);
         // Limpar o buffer para nao interferir no proximo scanf
-        while ((limparBuffer = getchar()) != '\n' && limparBuffer != EOF);
+        //while ((limparBuffer = getchar()) != '\n' && limparBuffer != EOF);
+        limparBuffer();
 
         // Calcula a media dos IMCs
         if(saberMedia == 1)
@@ -158,6 +164,7 @@ int main()
         {
             // Retorna 0, ou seja, o loop while inicial sera False, saindo do programa
             calcularNovamente = 0;
+            exit(0);
         }
         // Caso o valor de tempCalcularNovamente seja 1, colocamos 1 no calcularNovamente
         // Assim, ele ainda esta na condicao "while(calcularNovamente) == 1"
@@ -166,7 +173,7 @@ int main()
             calcularNovamente == (tempCalcularNovamente == 1);
         }
         // Limpa o buffer do scanf anterior para nao atrapalhar a proxima leitura
-        while ((limparBuffer = getchar()) != '\n' && limparBuffer != EOF);
+        limparBuffer();
 
         }
     // Limpa a memoria alocada dinamicamente para evitar problemas
