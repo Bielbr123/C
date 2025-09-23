@@ -11,8 +11,10 @@ int main(){
     // Linhas serao os dias e os bairros serao as colunas
     char dias[7][10];
     char bairros[2][20];
+    // Criando as variaveis
     int indiceBairroMaisChuvoso = 0, indiceDiaMaisChuvoso = 0;
     float diaMaisChuvoso = 0, totalChuvaPorBairro = 0, mediaChuvaPorBairro = 0;
+    // Criando a matriz com os indices de chuva
     float indicesChuva[7][2] =
     {
         {10, 20},
@@ -24,10 +26,10 @@ int main(){
         {4, 18}
     };
 
-
-    // Alocando as strings nos vetores
+    // Alocando os nomes dos bairros na array
     strcpy(bairros[0], "Mangabeiras");
     strcpy(bairros[1], "Jatiuca");
+    // Alocando os nomes da semana na array
     strcpy(dias[0], "Segunda");
     strcpy(dias[1], "Terca");
     strcpy(dias[2], "Quarta");
@@ -36,45 +38,39 @@ int main(){
     strcpy(dias[5], "Sabado");
     strcpy(dias[6], "Domingo");
 
-/*
-    for(int i = 0; i < 7; i++){
-        printf("Os valores do vetor dias sao dias[%d] = %s\n", i, dias[i]);}
- */
-
-    // Inicializando os dados de
-
+    // Acessando as linhas da matriz
     for(int i=0; i<7; i++)
     {
+    // Acessando as colunas da matriz
         for(int j=0;  j<2; j++)
         {
+    // Mostrando o quanto choveu em um determinado dia, em um determinado bairro
             printf("O valor do dia %s, no bairro %s e %.2f mm.\n", dias[i], bairros[j], indicesChuva[i][j]);
+    // Encontrando qual o dia mais chuvoso
             if (indicesChuva[i][j] > diaMaisChuvoso)
             {
                 diaMaisChuvoso = indicesChuva[i][j];
+    // Guardando os índices da maior quantidade de chuva
                 indiceBairroMaisChuvoso = j;
                 indiceDiaMaisChuvoso = i;
             }
-
         }
-
-        //printf("O valor total de chuva do bairro e: %f\n", chuvaTotalPorBairro);
     }
-
+    // Acessando as colunas da matriz
     for(int j = 0; j < 2; j++)
     {
+    // Acessando as linhas da matriz
         for(int i = 0; i < 7; i++)
         {
+    // Calculando a quantidade total por coluna
             totalChuvaPorBairro += indicesChuva[i][j];
         }
+    // Calculando a media de chuva por bairros
         mediaChuvaPorBairro = totalChuvaPorBairro/2;
         printf("\nA quantidade de chuva total do bairro %s e %.2f mm.\n", bairros[j], totalChuvaPorBairro);
         printf("A media de chuva do bairro %s e %.2f.\n", bairros[j], mediaChuvaPorBairro);
     }
-
-
+    // Mostrando o dia mais chuvoso, o bairro mais chuvoso e o dia mais chuvoso
     printf("\nMaior chuva:%.2f,no bairro %s, no dia de %s.\n", diaMaisChuvoso, bairros[indiceBairroMaisChuvoso], dias[indiceDiaMaisChuvoso] );
-    //printf("Bairros 1: %s\n", bairros[0]);
-
-
     return 0;
 }
